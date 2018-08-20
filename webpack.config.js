@@ -20,8 +20,8 @@ module.exports = {
   entry: { main: './src/index.js' },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    chunkFilename: '[name].[chunkhash:8].chunk.js',
-    filename: '[name].[chunkhash:8].js'
+    chunkFilename: '[name].[contenthash:8].chunk.js',
+    filename: '[name].[contenthash:8].js'
   },
   module: {
     rules: [{
