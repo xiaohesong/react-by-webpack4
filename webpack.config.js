@@ -54,5 +54,6 @@ module.exports = {
     }
   ]
   },
+  // if need to show bundle package size, add bundleView to plugins
   plugins: [htmlPlugin, needClean, handleCss]
 };
