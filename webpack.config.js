@@ -4,12 +4,14 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 //https://webpack.js.org/plugins/mini-css-extract-plugin/#minimizing-for-production
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
+// Plugins
 const handleCss = new MiniCssExtractPlugin({
   filename: '[name].[contenthash:8].css',
   chunkFilename: '[name].[contenthash:8].chunk.css',
 })
 const needClean = new CleanWebpackPlugin(['dist'])
+const bundleView = new BundleAnalyzerPlugin()
 const htmlPlugin = new HtmlWebPackPlugin({
   template: "./public/index.html",
   filename: "./index.html"
@@ -46,5 +48,5 @@ module.exports = {
     }
   ]
   },
-  plugins: [htmlPlugin, needClean, handleCss]
+  plugins: [htmlPlugin, needClean, handleCss, bundleView]
 };
