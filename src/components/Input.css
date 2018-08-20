@@ -1,0 +1,15 @@
+div.main {
+  position: relative;
+  text-align: center;
+  margin-top: 5%;
+}
+
+input.main {
+  width: 60%;
+  height: 48px;
+  padding: .3125rem;
+  border-radius: .375rem;
+  font-size: 2.375rem;
+  line-height: 2.5rem;
+  border: 2px solid #438956;
+}
