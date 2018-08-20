@@ -36,6 +36,12 @@ module.exports = {
           "es2015",
           "stage-0"
         ],
+        "plugins": [
+          ['import', [{
+            libraryName: "antd",
+            style: 'css'
+          }]],
+        ],
       }
     },
     {
@@ -48,5 +54,5 @@ module.exports = {
     }
   ]
   },
-  plugins: [htmlPlugin, needClean, handleCss, bundleView]
+  plugins: [htmlPlugin, needClean, handleCss]
 };
