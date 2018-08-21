@@ -21,7 +21,7 @@ export default class layout extends React.Component {
             <Menu />
           </Sider>
           <Content style={{ margin: '24px 16px 0' }}>
-            <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+            <div style={{ padding: 24, background: '#fff', minHeight: 780 }}>
               <ErrorBoundary>
                 {this.props.children}
               </ErrorBoundary>
