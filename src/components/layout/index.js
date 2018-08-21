@@ -9,17 +9,17 @@ export default class layout extends React.Component {
   render(){
     return(
       <Layout>
-        <Sider
-          breakpoint="lg"
-          collapsedWidth="0"
-          onBreakpoint={(broken) => { console.log(broken); }}
-          onCollapse={(collapsed, type) => { console.log(collapsed, type); }}
-        >
-          <div className="logo" />
-          <Menu />
-        </Sider>
+        <Header style={{ background: '#001529', padding: 0 }} />
         <Layout>
-          <Header style={{ background: '#001529', padding: 0 }} />
+          <Sider
+            breakpoint="lg"
+            collapsedWidth="0"
+            onBreakpoint={(broken) => { console.log(broken); }}
+            onCollapse={(collapsed, type) => { console.log(collapsed, type); }}
+          >
+            <div className="logo" />
+            <Menu />
+          </Sider>
           <Content style={{ margin: '24px 16px 0' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
               <ErrorBoundary>
@@ -27,10 +27,10 @@ export default class layout extends React.Component {
               </ErrorBoundary>
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>
-            ©2018 Created by Xiaohesong, All Rights Reserved.
-          </Footer>
         </Layout>
+        <Footer style={{ textAlign: 'center' }}>
+          ©2018 Created by Xiaohesong, All Rights Reserved.
+        </Footer>
       </Layout>
     )
   }

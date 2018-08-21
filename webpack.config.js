@@ -17,6 +17,16 @@ const htmlPlugin = new HtmlWebPackPlugin({
   filename: "./index.html"
 });
 
+const lessLoader = {
+  loader: 'less-loader', // compiles Less to CSS
+  options: {
+    modifyVars: {
+      'primary-color': '#1DA57A',
+      'link-color': '#1DA57A',
+    },
+    javascriptEnabled: true
+  }
+}
 
 module.exports = {
   entry: { main: './src/index.js' },
@@ -37,16 +47,36 @@ module.exports = {
           "stage-0"
         ],
         "plugins": [
-          ['import', [{
-            libraryName: "antd",
-            style: 'css'
-          }]],
-        ],
-      }
+          ["import", {
+            "libraryName": "antd",
+            "style": true
+          }] // `style: true` 会加载 less 文件
+        ] // End plugins
+      },
     },
     {
       test: /\.css$/,
-      use: [MiniCssExtractPlugin.loader, "css-loader"]
+      use: [MiniCssExtractPlugin.loader, "css-loader", 'postcss-loader']
+    },
+    {
+      test: /\.less$/,
+      // use: [MiniCssExtractPlugin.loader, "css-loader", lessLoader],
+      use: [{
+        loader: MiniCssExtractPlugin.loader,
+      }, {
+        loader: 'css-loader', // translates CSS into CommonJS
+      }, {
+        loader: 'postcss-loader'
+      }, {
+        loader: 'less-loader', // compiles Less to CSS
+        options: {
+          modifyVars: {
+            '@primary-color': '#1DA57A',
+            '@link-color': '#1DA57A',
+          },
+          javascriptEnabled: true
+        }
+      }]
     },
     {
       test: /\.(png|svg|jpg|gif|jpeg)$/,
