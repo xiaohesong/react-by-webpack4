@@ -1,0 +1,28 @@
+div.ant-layout ul.menu-collapsed a{
+  display: inline-block;
+}
+div.ant-layout-content {
+  min-height: 790px;
+  background-color: #fff;
+  margin: 24px 16px;
+  padding: 24px;
+}
+
+div.ant-menu-submenu-title{
+  font-size: 16px;
+}
+
+/*二级submenu菜单的字体*/
+div.ant-menu-submenu-title:after{
+  font-size: 16px;
+}
+
+/*菜单Item的字体*/
+li.ant-menu-item {
+  font-size: 14px;
+}
+
+li.ant-menu-item a {
+  color: rgba(255, 255, 255, 0.65);
+  display: inline-block;
+}

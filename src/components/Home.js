@@ -1,7 +1,10 @@
 import React from 'react';
+import Input from './inputs/Input'
 
 const home = () => (
-  <h1>Home</h1>
+  <div className='app'>
+    <Input value={3} />
+  </div>
 )
 
 export default home

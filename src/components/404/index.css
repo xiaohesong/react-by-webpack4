@@ -1,0 +1,32 @@
+.status-404 {
+  color: #434e59;
+  font-size: 72px;
+  font-weight: 600;
+  line-height: 72px;
+  margin-bottom: 24px;
+  animation: skio-404 2s ease 0s infinite;
+  animation-play-state: running;
+}
+
+.status-404-notice {
+  color: rgba(0,0,0,.45);
+  font-size: 20px;
+  line-height: 28px;
+}
+
+.status-404-content {
+  width: auto;
+  left: 50%;
+  position: absolute;
+}
+
+@keyframes skio-404 {
+    from    { transform: rotate(0deg); }
+    4%      { transform: rotate(5deg); }
+    12.5%   { transform: rotate(-5deg); }
+    21%     { transform: rotate(5deg); }
+    29%     { transform: rotate(-5deg); }
+    37.5%   { transform: rotate(5deg); }
+    46%     { transform: rotate(-5deg); }
+    50%,to  { transform: rotate(0deg); }
+}
