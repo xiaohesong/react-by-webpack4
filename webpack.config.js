@@ -50,33 +50,13 @@ module.exports = {
           ["import", {
             "libraryName": "antd",
             "style": true
-          }] // `style: true` 会加载 less 文件
+          }]
         ] // End plugins
       },
     },
     {
-      test: /\.css$/,
-      use: [MiniCssExtractPlugin.loader, "css-loader", 'postcss-loader']
-    },
-    {
-      test: /\.less$/,
-      // use: [MiniCssExtractPlugin.loader, "css-loader", lessLoader],
-      use: [{
-        loader: MiniCssExtractPlugin.loader,
-      }, {
-        loader: 'css-loader', // translates CSS into CommonJS
-      }, {
-        loader: 'postcss-loader'
-      }, {
-        loader: 'less-loader', // compiles Less to CSS
-        options: {
-          modifyVars: {
-            '@primary-color': '#1DA57A',
-            '@link-color': '#1DA57A',
-          },
-          javascriptEnabled: true
-        }
-      }]
+      test: /\.(less|css)$/,
+      use: [MiniCssExtractPlugin.loader, 'css-loader', lessLoader] // end less use
     },
     {
       test: /\.(png|svg|jpg|gif|jpeg)$/,
