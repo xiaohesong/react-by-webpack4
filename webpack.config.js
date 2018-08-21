@@ -86,5 +86,13 @@ module.exports = {
   ]
   },
   // if need to show bundle package size, add bundleView to plugins
-  plugins: [htmlPlugin, needClean, handleCss]
+  plugins: [htmlPlugin, needClean, handleCss],
+
+  devServer: {
+    contentBase: path.join(__dirname, "/"), // index.html的位置
+    historyApiFallback: true,
+    inline: true,
+    compress: true,
+    progress: true,
+  }
 };
