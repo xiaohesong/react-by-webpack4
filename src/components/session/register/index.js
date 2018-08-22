@@ -38,6 +38,7 @@ class RegistrationForm extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        values.password = values.password.trim()
         post(`users`, values).then(data => {
           if(data.id){
             this.props.history.push('/login')

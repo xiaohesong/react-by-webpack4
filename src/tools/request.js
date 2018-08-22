@@ -17,11 +17,7 @@ export const get = (path, params = {}) => {
   const searchParams = Object.keys(params).map(key => {
     return params[key] !== '' ? encodeURIComponent(key) + '=' + encodeURIComponent(params[key]) : ''
   }).filter(item => item !== '').join('&')
-  return instance.get(`${API_URL}/${path}?${searchParams}`, {
-      headers: {
-        'auth-token': localStorage.getItem("Your auth token"),
-      }
-    })
+  return instance.get(`${API_URL}/${path}?${searchParams}`)
     .then(response => response.data)
     .catch(function (error) {
       handleError(error)

@@ -3,26 +3,42 @@ import { Form, Icon, Input, Button, message } from 'antd';
 import {Link} from 'react-router-dom';
 import Header from '../../layout/header/HeaderWithoutLogin';
 import { phone } from '../../../tools/rules';
+import {get} from '../../../tools/request';
 
 import './index.css';
 
 const FormItem = Form.Item
 
 class LoginForm extends React.PureComponent {
-  state = {loading: false}
+  state = {
+    loading: false,
+    userList: [{}]
+  }
 
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // this.setState({loading: true})
-        // values.password = values.password.trim()
+        const {userList} = this.state
+        this.setState({loading: true})
+        values.password = values.password.trim()
+        const user = userList.filter(user => (String(user.phone) === values.phone) && (String(user.password) === values.password))[0]
+        this.setState({loading: false})
+        if(user && user.id){
+          message.success('登录成功!')
+          localStorage.setItem('authId', user.id)
+          this.props.history.push('/')
+        }else{
+          message.error('不存在该用户!')
+        }
       }
     });
   }
 
   componentDidMount(){
-
+    get('users').then(data => {
+      this.setState({userList: data});
+    })
   }
   render() {
     const { getFieldDecorator } = this.props.form;
