@@ -4,9 +4,9 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 //https://webpack.js.org/plugins/mini-css-extract-plugin/#minimizing-for-production
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
 const autoprefixer = require('autoprefixer');
-
 // Plugins
 const handleCss = new MiniCssExtractPlugin({
   filename: '[name].[contenthash:8].css',
@@ -57,33 +57,39 @@ module.exports = {
     filename: '[name].[contenthash:8].js'
   },
   module: {
-    rules: [{
-      test: /\.js$/,
-      exclude: /node_modules/,
-      loader: 'babel-loader',
-      query: {
-        "presets": [
-          "react",
-          "es2015",
-          "stage-0"
-        ],
-        "plugins": [
-          ["import", {
-            "libraryName": "antd",
-            "style": true
-          }]
-        ] // End plugins
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        query: {
+          "presets": [
+            "react",
+            "es2015",
+            "stage-0"
+          ],
+          "plugins": [
+            ["import", {
+              "libraryName": "antd",
+              "style": true
+            }]
+          ] // End plugins
+        },
       },
-    },
-    {
-      test: /\.(less|css)$/,
-      use: [MiniCssExtractPlugin.loader, 'css-loader', postcssLoader, lessLoader] // end less use
-    },
-    {
-      test: /\.(png|svg|jpg|gif|jpeg)$/,
-      use: ['file-loader']
-    }
-  ]
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: ['babel-loader', 'eslint-loader']
+      },
+      {
+        test: /\.(less|css)$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', postcssLoader, lessLoader] // end less use
+      },
+      {
+        test: /\.(png|svg|jpg|gif|jpeg)$/,
+        use: ['file-loader']
+      }
+    ]
   },
   // if need to show bundle package size, add bundleView to plugins
   plugins: [htmlPlugin, needClean, handleCss],
