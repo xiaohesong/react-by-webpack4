@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Radio } from 'antd';
+import { Button, Radio, Divider } from 'antd';
 import Input from './inputs/Input'
 
 import YanxiData from './YanXi'
@@ -21,6 +21,7 @@ class home extends React.PureComponent {
           <Input value={src} onChange={this.changeSrc}/>
         </div>
         <Button onClick={this.toggle}>{playText}</Button>
+        <Divider type="vertical" />
         <RadioGroup onChange={this.onChangeNumber} value={this.state.number}>
           {
             Object.keys(YanxiData).map(key => {
