@@ -2,14 +2,15 @@ import React from 'react';
 import { Layout} from 'antd';
 import Menu from './Menu';
 import ErrorBoundary from '../error';
+import Header from './header';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Footer, Sider } = Layout;
 
 export default class layout extends React.Component {
   render(){
     return(
       <Layout>
-        <Header style={{ background: '#001529', padding: 0 }} />
+        <Header />
         <Layout>
           <Sider
             breakpoint="lg"

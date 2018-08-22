@@ -1,0 +1,30 @@
+/* BFC */
+.header {
+  background: #001529;
+  padding: 0;
+  clear: both;
+  *zoom: 1;
+}
+
+.header:before, .header:after {
+  content: "";
+  display: table;
+}
+
+.header:after {
+  clear: both;
+}
+
+.header .header-avatar {
+  vertical-align: middle;
+  float: right;
+  margin-top: .625rem;
+  right: 1.875rem;
+}
+
+.header img {
+  width: 5rem;
+  height: 3.75rem;
+  margin-left: 3.125rem;
+  border-radius: 1.875rem;
+}
