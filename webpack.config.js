@@ -77,11 +77,6 @@ module.exports = {
         },
       },
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: ['babel-loader', 'eslint-loader']
-      },
-      {
         test: /\.(less|css)$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader', postcssLoader, lessLoader] // end less use
       },
