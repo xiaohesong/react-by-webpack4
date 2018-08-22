@@ -1,8 +1,9 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import { Form, Input, Tooltip, Icon, Select, Button } from 'antd';
+import {post} from '../../../tools/request';
+import { Form, Input, Tooltip, Icon, Select, Button, message } from 'antd';
 import HeaderWithoutLogin from '../../layout/header/HeaderWithoutLogin'
-
+import {phone} from  '../../../tools/rules';
 import '../login/index.css'
 
 const FormItem = Form.Item;
@@ -32,46 +33,23 @@ const tailFormItemLayout = {
 };
 
 class RegistrationForm extends React.Component {
-  state = {
-    confirmDirty: false,
-    autoCompleteResult: [],
-  };
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        post(`users`, values).then(data => {
+          if(data.id){
+            this.props.history.push('/login')
+          }else{
+            message.error('失败')
+          }
+          
+        })
       }
     });
   }
-  handleConfirmBlur = (e) => {
-    const value = e.target.value;
-    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-  }
-  compareToFirstPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!');
-    } else {
-      callback();
-    }
-  }
-  validateToNextPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(['confirm'], { force: true });
-    }
-    callback();
-  }
-  handleWebsiteChange = (value) => {
-    let autoCompleteResult;
-    if (!value) {
-      autoCompleteResult = [];
-    } else {
-      autoCompleteResult = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
-    }
-    this.setState({ autoCompleteResult });
-  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const prefixSelector = getFieldDecorator('prefix', {
@@ -98,8 +76,8 @@ class RegistrationForm extends React.Component {
                 </span>
               )}
             >
-              {getFieldDecorator('username', {
-                rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+              {getFieldDecorator('name', {
+                rules: [{ required: true, message: '请输入你的昵称!', whitespace: true }],
               })(
                 <Input />
               )}
@@ -109,7 +87,7 @@ class RegistrationForm extends React.Component {
               label="手机号"
             >
               {getFieldDecorator('phone', {
-                rules: [{ required: true, message: '请正确输入你的手机号!' }],
+                rules: [{ required: true, message: '请正确输入你的手机号!', pattern: phone }],
               })(
                 <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
               )}
@@ -126,6 +104,18 @@ class RegistrationForm extends React.Component {
                 }],
               })(
                 <Input />
+              )}
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="Password"
+            >
+              {getFieldDecorator('password', {
+                rules: [{
+                  required: true, message: '请正确输入你的密码!',
+                }],
+              })(
+                <Input type='password'/>
               )}
             </FormItem>
             <FormItem {...tailFormItemLayout}>

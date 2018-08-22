@@ -2,6 +2,7 @@
 
 ```shell
 git clone git@github.com:xiaohesong/react-by-webpack4.git
+cp example.env.development .env.development 
 npm i && npm start
 ```
 
