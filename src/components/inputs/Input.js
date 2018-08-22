@@ -3,16 +3,15 @@ import img from './1.jpeg'
 import {Input} from 'antd'
 import './Input.css'
 
-const input = (props) => (
-  <div className='main'>
-    <img src={img} alt="美不美"/>
-    <Input className="main" type="text" onChange={handleChange} value={props.value}/>
-  </div>
-)
+const input = (props) => {
+  const handleChange = e => props.onChange(e.target.value)
 
-const handleChange = e => {
-  const {value} = e.target
-  console.log('value is', value)
+  return(
+    <div className='main'>
+      <img src={img} alt="美不美"/>
+      <Input className="main" type="text" value={props.value} onChange={handleChange}/>
+    </div>
+  )
 }
 
 export default input

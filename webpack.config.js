@@ -49,51 +49,55 @@ const postcssLoader = {
   }
 }
 
-module.exports = {
-  entry: { main: './src/index.js' },
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    chunkFilename: '[name].[contenthash:8].chunk.js',
-    filename: '[name].[contenthash:8].js'
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          "presets": [
-            "react",
-            "es2015",
-            "stage-0"
-          ],
-          "plugins": [
-            ["import", {
-              "libraryName": "antd",
-              "style": true
-            }]
-          ] // End plugins
+module.exports = env => {
+  console.log('current env is', env);
+  
+  return {
+    entry: { main: './src/index.js' },
+    output: {
+      path: path.resolve(__dirname, 'dist'),
+      chunkFilename: '[name].[contenthash:8].chunk.js',
+      filename: '[name].[contenthash:8].js'
+    },
+    module: {
+      rules: [
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          loader: 'babel-loader',
+          query: {
+            "presets": [
+              "react",
+              "es2015",
+              "stage-0"
+            ],
+            "plugins": [
+              ["import", {
+                "libraryName": "antd",
+                "style": true
+              }]
+            ] // End plugins
+          },
         },
-      },
-      {
-        test: /\.(less|css)$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', postcssLoader, lessLoader] // end less use
-      },
-      {
-        test: /\.(png|svg|jpg|gif|jpeg)$/,
-        use: ['file-loader']
-      }
-    ]
-  },
-  // if need to show bundle package size, add bundleView to plugins
-  plugins: [htmlPlugin, needClean, handleCss],
+        {
+          test: /\.(less|css)$/,
+          use: [MiniCssExtractPlugin.loader, 'css-loader', postcssLoader, lessLoader] // end less use
+        },
+        {
+          test: /\.(png|svg|jpg|gif|jpeg)$/,
+          use: ['file-loader']
+        }
+      ]
+    },
+    // if need to show bundle package size, add bundleView to plugins
+    plugins: [htmlPlugin, needClean, handleCss],
 
-  devServer: {
-    contentBase: path.join(__dirname, "/"), // index.html的位置
-    historyApiFallback: true,
-    inline: true,
-    compress: true,
-    progress: true,
+    devServer: {
+      contentBase: path.join(__dirname, "/"), // index.html的位置
+      historyApiFallback: true,
+      inline: true,
+      compress: true,
+      progress: true,
+    }
   }
 };
