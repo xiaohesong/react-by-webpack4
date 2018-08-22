@@ -1,0 +1,39 @@
+#components-form-demo-normal-login .login-form {
+  max-width: 300px;
+}
+#components-form-demo-normal-login .login-form-button {
+  width: 100%;
+}
+.login, .register {
+  height:100%;
+  width:100%;
+  position: fixed;
+  background-color: #EBEBEB;
+}
+
+.login-area, .register-area {
+  position: absolute;
+  padding: 3%;
+  width: 30%;
+  top: 20%;
+  left: 35%;
+  background-color: #fff;
+}
+
+.personal-footer-component, .personal-footer-component p {
+  position: absolute;
+  display: inline-block;
+}
+
+.personal-login-footer {
+  position: relative;
+  padding: 3px;
+  margin: 2px;
+  width: 160px;
+  display: inline-block;
+}
+
+.personal-login-noaccount {
+  font-size: 10px;
+  margin-left: 10px;
+}

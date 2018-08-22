@@ -1,0 +1,27 @@
+.personal-header-without-login {
+  background-color: #333333;
+  height: 65px;
+  min-width: 998px;
+}
+
+.personal-header-info {
+  position: relative;
+  left: 24%;
+  padding: 10px;
+}
+
+.personal-logo img{
+  width: 7.5rem;
+  height: 2.5rem;
+  border-radius: 5px;
+}
+
+.personal-logo,
+.header-info-des {
+  display: inline-block;
+  position: relative;
+}
+
+.header-info-des b {
+  font-weight: normal;
+}

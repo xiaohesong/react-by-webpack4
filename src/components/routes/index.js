@@ -5,7 +5,6 @@ const routes = [
   {path: "/",component: Home},
   {path: "/ni",component: Home},
 
-
   
   {component: NotFound},
 ]
