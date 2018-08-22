@@ -15,6 +15,8 @@
   "license": "ISC",
   "dependencies": {
     "antd": "^3.8.2",
+    "dotenv": "^6.0.0",
+    "dotenv-expand": "^4.2.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-router-dom": "^4.3.1"

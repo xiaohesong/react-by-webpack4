@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
@@ -7,6 +8,9 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
 const autoprefixer = require('autoprefixer');
+
+const getClientEnvironment = require('./config/env.js')
+
 // Plugins
 const handleCss = new MiniCssExtractPlugin({
   filename: '[name].[contenthash:8].css',
@@ -16,7 +20,19 @@ const needClean = new CleanWebpackPlugin(['dist'])
 const bundleView = new BundleAnalyzerPlugin()
 const htmlPlugin = new HtmlWebPackPlugin({
   template: "./public/index.html",
-  filename: "./index.html"
+  filename: "./index.html",
+  minify: {
+    removeComments: true,
+    collapseWhitespace: true,
+    removeRedundantAttributes: true,
+    useShortDoctype: true,
+    removeEmptyAttributes: true,
+    removeStyleLinkTypeAttributes: true,
+    keepClosingSlash: true,
+    minifyJS: true,
+    minifyCSS: true,
+    minifyURLs: true,
+  },
 });
 
 const lessLoader = {
@@ -49,9 +65,10 @@ const postcssLoader = {
   }
 }
 
-module.exports = env => {
-  console.log('current env is', env);
-  
+module.exports = (_env, args) => {
+  const env = getClientEnvironment(args.mode);
+  const DefinePlugin = new webpack.DefinePlugin(env.stringified)
+
   return {
     entry: { main: './src/index.js' },
     output: {
@@ -90,7 +107,7 @@ module.exports = env => {
       ]
     },
     // if need to show bundle package size, add bundleView to plugins
-    plugins: [htmlPlugin, needClean, handleCss],
+    plugins: [htmlPlugin, needClean, handleCss, DefinePlugin],
 
     devServer: {
       contentBase: path.join(__dirname, "/"), // index.html的位置
