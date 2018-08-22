@@ -1,5 +1,7 @@
-import Home from '../Home';
-import NotFound from '../404'
+import asyncComponent from '../AsyncComponent';
+
+const Home = asyncComponent(() => import('../Home'))
+const NotFound = asyncComponent(() => import('../404'))
 
 const routes = [
   {path: "/",component: Home},

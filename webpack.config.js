@@ -92,7 +92,13 @@ module.exports = (_env, args) => {
               ["import", {
                 "libraryName": "antd",
                 "style": true
-              }]
+              }],
+              ["transform-runtime", {
+                "helpers": false, // defaults to true
+                "polyfill": false, // defaults to true
+                "regenerator": true, // defaults to true
+                "moduleName": "babel-runtime" // defaults to "babel-runtime"
+              }],
             ] // End plugins
           },
         },

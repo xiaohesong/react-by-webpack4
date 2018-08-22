@@ -1,11 +1,14 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import asyncComponent from './components/AsyncComponent';
+
 import './App.css';
 import RouteLink from './components/layout/Link'
 
-import Login from './components/session/login';
-import Register from './components/session/register';
+const Register = asyncComponent(() => import( './components/session/register'));
+const Login = asyncComponent(() => import('./components/session/login'))
 
+console.log(process.env.XHS_NAME)
 const hello = () => (
   <Router>
     <Switch>
