@@ -1,7 +1,7 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import asyncComponent from './components/AsyncComponent';
-
+import PrivateRoute from "./components/PrivateRoute";
 import './App.css';
 import RouteLink from './components/layout/Link'
 
@@ -14,8 +14,7 @@ const hello = () => (
     <Switch>
       <Route exact component={Register} path='/register'/>
       <Route exact component={Login} path='/login'/>
-      <Route component={RouteLink} path='/' />
-      {/* <PrivateRoute component={MainLayout} path="/"/> */}
+      <PrivateRoute component={RouteLink} path='/' />
     </Switch>
   </Router>
 )
