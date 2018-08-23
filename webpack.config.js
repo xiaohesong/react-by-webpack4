@@ -65,6 +65,20 @@ const postcssLoader = {
   }
 }
 
+const splitChunks = {
+  chunks: 'all',
+  cacheGroups: {
+    commons: {
+      name: 'commons',
+      minChunks: 2
+    },
+    vendor: {
+      test: /[\\/]node_modules[\\/]/,
+      name: 'vendor',
+    },
+  }
+}
+
 module.exports = (_env, args) => {
   const env = getClientEnvironment(args.mode);
   const DefinePlugin = new webpack.DefinePlugin(env.stringified)
@@ -76,6 +90,12 @@ module.exports = (_env, args) => {
       chunkFilename: '[name].[contenthash:8].chunk.js',
       filename: '[name].[contenthash:8].js'
     },
+    // optimization: {
+    //   splitChunks: splitChunks,
+    //   runtimeChunk: {
+    //     name: 'manifest'
+    //   },
+    // },
     module: {
       rules: [
         {
