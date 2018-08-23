@@ -18,6 +18,9 @@ app.enable('trust proxy');
 // http://expressjs.com/api#req.secure). This allows us 
 // to know whether the request was via http or https.
 app.use(function (req, res, next) {
+  if(req.path.startsWith('/') && (req.path !== '/service_worker.js')){
+    res.set('Cache-Control', 'max-age=86400');
+  }
   if (req.secure) {
     // request was via https, so do no special handling
     next();
