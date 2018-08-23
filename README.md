@@ -1,4 +1,8 @@
-### development
+### 基础环境
+
+- [node >= 7.1](https://github.com/GoogleChromeLabs/preload-webpack-plugin/issues/45#issuecomment-352523780)
+
+### 开发环境
 
 ```shell
 git clone git@github.com:xiaohesong/react-by-webpack4.git
@@ -6,13 +10,13 @@ cp example.env.development .env.development
 npm i && npm start
 ```
 
-### production
+### 正式环境
 
 ```shell
 npm run build && npm run pro
 ```
 
-### env
+### 环境配置
 
 支持配置环境变量
 

@@ -10,6 +10,7 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPl
 const autoprefixer = require('autoprefixer');
 
 const getClientEnvironment = require('./config/env.js')
+const PreloadWebpackPlugin = require('preload-webpack-plugin');
 
 // Plugins
 const handleCss = new MiniCssExtractPlugin({
@@ -79,6 +80,8 @@ const splitChunks = {
   }
 }
 
+const preloadPlugin = new PreloadWebpackPlugin()
+
 module.exports = (_env, args) => {
   const env = getClientEnvironment(args.mode);
   const DefinePlugin = new webpack.DefinePlugin(env.stringified)
@@ -133,7 +136,7 @@ module.exports = (_env, args) => {
       ]
     },
     // if need to show bundle package size, add bundleView to plugins
-    plugins: [htmlPlugin, needClean, handleCss, DefinePlugin],
+    plugins: [htmlPlugin, needClean, handleCss, DefinePlugin, preloadPlugin],
 
     devServer: {
       contentBase: path.join(__dirname, "/"), // index.html的位置
