@@ -128,10 +128,18 @@ module.exports = (_env, args) => {
       filename: '[name].[contenthash:8].js'
     },
     optimization: {
+      // SplitChunks的优化需要在最后处理，如果split chunks all会增加首次包的体积，需权衡.
       // splitChunks: splitChunks,
-      // runtimeChunk: {
-      //   name: 'manifest'
+      // https://twitter.com/wSokra/status/969633336732905474
+      // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
+      // splitChunks: {
+      //     chunks: 'all',
+      //     name: 'vendors',
       // },
+      // Keep the runtime chunk seperated to enable long term caching
+      // https://twitter.com/wSokra/status/969679223278505985
+      // runtimeChunk: true,
+
       minimizer: [
         uglifyConfig,
         OptimizeCSSAssets
