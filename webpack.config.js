@@ -11,6 +11,7 @@ const autoprefixer = require('autoprefixer');
 
 const getClientEnvironment = require('./config/env.js')
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 // Plugins
 const handleCss = new MiniCssExtractPlugin({
@@ -44,6 +45,14 @@ const lessLoader = {
       'link-color': '#1DA57A',
     },
     javascriptEnabled: true
+  }
+}
+
+const cssLoader = {
+  loader: 'css-loader',
+  options: {
+    importLoaders: 1,
+    minimize: true,
   }
 }
 
@@ -81,6 +90,7 @@ const splitChunks = {
 }
 
 const preloadPlugin = new PreloadWebpackPlugin()
+const OptimizeCSSAssets = new OptimizeCSSAssetsPlugin({ cssProcessorOptions: { safe: true } })
 
 module.exports = (_env, args) => {
   const env = getClientEnvironment(args.mode);
@@ -127,7 +137,7 @@ module.exports = (_env, args) => {
         },
         {
           test: /\.(less|css)$/,
-          use: [MiniCssExtractPlugin.loader, 'css-loader', postcssLoader, lessLoader] // end less use
+          use: [MiniCssExtractPlugin.loader, cssLoader, postcssLoader, lessLoader] // end less use
         },
         {
           test: /\.(png|svg|jpg|gif|jpeg)$/,
@@ -136,7 +146,7 @@ module.exports = (_env, args) => {
       ]
     },
     // if need to show bundle package size, add bundleView to plugins
-    plugins: [htmlPlugin, needClean, handleCss, DefinePlugin, preloadPlugin],
+    plugins: [htmlPlugin, needClean, handleCss, OptimizeCSSAssets, DefinePlugin, preloadPlugin],
 
     devServer: {
       contentBase: path.join(__dirname, "/"), // index.html的位置
