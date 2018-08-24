@@ -8,7 +8,6 @@ import RouteLink from './components/layout/Link'
 const Register = asyncComponent(() => import( './components/session/register'));
 const Login = asyncComponent(() => import('./components/session/login'))
 
-console.log(process.env.XHS_NAME)
 const hello = () => (
   <Router>
     <Switch>

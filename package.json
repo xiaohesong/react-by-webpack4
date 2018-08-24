@@ -5,7 +5,7 @@
   "homepage": "https://xiaohesong.github.io/react-by-webpack4",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode production",
+    "build": "node release.js && webpack --mode production",
     "pro": "node serve.js",
     "start": "webpack-dev-server  --mode development --open",
     "predeploy": "npm run build",
