@@ -1,11 +1,11 @@
 import {
-  LOGIN_FAILEDF,
-  START_LOGIN
-} from '../../../constants/session/login';
+  LOGIN_FAILED,
+  START_LOGIN,
+  LOGIN_SUCCESS
+} from '../../../constants/session/login/ActionType';
 
 const initState = {
   loading: false,
-  userList: [{}]
 }
 
 export default function contracts(state = initState, action) {
@@ -15,7 +15,12 @@ export default function contracts(state = initState, action) {
         ...state,
         loading: true
       }
-    case LOGIN_FAILEDF:
+    case LOGIN_FAILED:
+      return {
+        ...state,
+        loading: false
+      }
+    case LOGIN_SUCCESS:
       return {
         ...state,
         loading: false

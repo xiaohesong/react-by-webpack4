@@ -3,27 +3,26 @@ import { Form, Icon, Input, Button, message } from 'antd';
 import {Link} from 'react-router-dom';
 import Header from '../../layout/header/HeaderWithoutLogin';
 import { phone } from '../../../tools/rules';
-import {get} from '../../../tools/request';
 
 import './index.css';
+
+import * as userActions from '../../../actions/users';
+import * as loginActions from '../../../actions/session/login';
+import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux'
 
 const FormItem = Form.Item
 
 class LoginForm extends React.PureComponent {
-  state = {
-    loading: false,
-    userList: [{}]
-  }
-
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const {userList} = this.state
-        this.setState({loading: true})
+        const {userList} = this.props.users.list
+        this.props.actions.startLogin()
         values.password = values.password.trim()
         const user = userList.filter(user => (String(user.phone) === values.phone) && (String(user.password) === values.password))[0]
-        this.setState({loading: false})
+        this.props.actions.loginSuccess()
         if(user && user.id){
           message.success('登录成功!')
           localStorage.setItem('authId', user.id)
@@ -36,11 +35,10 @@ class LoginForm extends React.PureComponent {
   }
 
   componentDidMount(){
-    get('users').then(data => {
-      this.setState({userList: data});
-    })
+    this.props.actions.getUsers()
   }
   render() {
+    const {loading} = this.props.login
     const { getFieldDecorator } = this.props.form;
     return (
       <div className='login'>
@@ -62,7 +60,7 @@ class LoginForm extends React.PureComponent {
               )}
             </FormItem>
             <FormItem>
-              <Button loading={this.state.loading} type="primary" htmlType="submit" className="login-form-button">
+              <Button loading={loading} type="primary" htmlType="submit" className="login-form-button">
                 登录
               </Button>
               <div className="personal-footer-component">
@@ -77,4 +75,16 @@ class LoginForm extends React.PureComponent {
 }
 
 const WrappedLoginForm = Form.create()(LoginForm);
-export default WrappedLoginForm
+const mapStateToProps = (state, ownProps) => ({
+  users: state.users,
+  login: state.login
+})
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(Object.assign({}, loginActions, userActions), dispatch)
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WrappedLoginForm)
