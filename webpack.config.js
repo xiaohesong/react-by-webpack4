@@ -12,6 +12,7 @@ const autoprefixer = require('autoprefixer');
 const getClientEnvironment = require('./config/env.js')
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 // Plugins
 const handleCss = new MiniCssExtractPlugin({
@@ -91,6 +92,29 @@ const splitChunks = {
 
 const preloadPlugin = new PreloadWebpackPlugin()
 const OptimizeCSSAssets = new OptimizeCSSAssetsPlugin({ cssProcessorOptions: { safe: true } })
+const uglifyConfig = new UglifyJsPlugin({
+  uglifyOptions: {
+    parse: {
+      ecma: 8,
+    },
+    compress: {
+      ecma: 5,
+      warnings: false,
+      comparisons: false,
+    },
+    mangle: {
+      safari10: true,
+    },
+    output: {
+      ecma: 5,
+      comments: false,
+      ascii_only: true,
+    },
+  },
+  parallel: true,
+  cache: true,
+  sourceMap: false,
+})
 
 module.exports = (_env, args) => {
   const env = getClientEnvironment(args.mode);
@@ -103,12 +127,16 @@ module.exports = (_env, args) => {
       chunkFilename: '[name].[contenthash:8].chunk.js',
       filename: '[name].[contenthash:8].js'
     },
-    // optimization: {
-    //   splitChunks: splitChunks,
-    //   runtimeChunk: {
-    //     name: 'manifest'
-    //   },
-    // },
+    optimization: {
+      // splitChunks: splitChunks,
+      // runtimeChunk: {
+      //   name: 'manifest'
+      // },
+      minimizer: [
+        uglifyConfig,
+        OptimizeCSSAssets
+      ]
+    },
     module: {
       rules: [
         {
@@ -146,7 +174,7 @@ module.exports = (_env, args) => {
       ]
     },
     // if need to show bundle package size, add bundleView to plugins
-    plugins: [htmlPlugin, needClean, handleCss, OptimizeCSSAssets, DefinePlugin, preloadPlugin],
+    plugins: [htmlPlugin, needClean, handleCss, DefinePlugin, preloadPlugin],
 
     devServer: {
       contentBase: path.join(__dirname, "/"), // index.html的位置
