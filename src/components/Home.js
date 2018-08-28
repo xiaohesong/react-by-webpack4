@@ -7,10 +7,15 @@ import YanxiData from './YanXi'
 const RadioGroup = Radio.Group;
 
 class home extends React.PureComponent {
+  constructor(props){
+    super(props);
+    this.videoRef = React.createRef();
+  }
+  
   state = {
     playing: false,
     number: 65,
-    src: 'http://v.kd.qq.com/1116_5X00000000000000000000000006pJcV.f630.mp4?vkey=64A450FEC9BB03491DA4187FE6468A72039B961465791A1726B7F9B5E00A7792C699DAED840F520FE6F56709DF9EF7A3&guid=9B2D0B6E-C86A-4014-8C1E-765BD2E4E8E3'
+    src: 'http://v.kd.qq.com/1116_5X00000000000000000000000006pJcV.f630.mp4?vkey=64A450FEC9BB03491DA4187FE6468A72039B961465791A1726B7F9B5E00A7792C699DAED840F520FE6F56709DF9EF7A3&guid=9B2D0B6E-C86A-4014-8C1E-765BD2E4E8E3',
   }
   render() {
     const {playing, src} = this.state
@@ -32,7 +37,7 @@ class home extends React.PureComponent {
         <div className='video-play'>
           <video 
             id='video'
-            ref = "vidRef"
+            ref={this.videoRef}
             src = {src}
           /> 
         </div>
@@ -42,7 +47,8 @@ class home extends React.PureComponent {
 
   toggle = () => {
     const {playing} = this.state
-    const ref = this.refs.vidRef
+    const ref = this.videoRef.current
+    
     ref.controls = true
     this.setState({playing: !playing})
     playing ? ref.pause() : ref.play()
