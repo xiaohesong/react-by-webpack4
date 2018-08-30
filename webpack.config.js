@@ -148,6 +148,10 @@ module.exports = (_env, args) => {
     module: {
       rules: [
         {
+          test: /\.tsx?$/,
+          loader: 'awesome-typescript-loader'
+        },
+        {
           test: /\.js$/,
           exclude: /node_modules/,
           loader: 'babel-loader',
