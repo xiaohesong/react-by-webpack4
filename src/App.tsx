@@ -1,11 +1,12 @@
-import React from 'react';
+import * as React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import asyncComponent from './components/AsyncComponent';
 import PrivateRoute from "./components/PrivateRoute";
 import './App.css';
 import RouteLink from './components/layout/Link'
+// import Register from './components/session/register/index'
 
-const Register = asyncComponent(() => import( './components/session/register'));
+const Register = asyncComponent(() => import( './components/session/register/index'));
 const Login = asyncComponent(() => import('./components/session/login'))
 
 const hello = () => (

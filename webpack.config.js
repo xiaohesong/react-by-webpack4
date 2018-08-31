@@ -149,7 +149,8 @@ module.exports = (_env, args) => {
       rules: [
         {
           test: /\.tsx?$/,
-          loader: 'awesome-typescript-loader'
+          loader: 'ts-loader',
+          exclude: /node_modules/
         },
         {
           test: /\.js$/,
@@ -187,6 +188,9 @@ module.exports = (_env, args) => {
     },
     // if need to show bundle package size, add bundleView to plugins
     plugins: [htmlPlugin, needClean, handleCss, DefinePlugin, preloadPlugin],
+    resolve: {
+      extensions: [".ts", ".tsx", ".js"]
+    },
 
     devServer: {
       contentBase: path.join(__dirname, "/"), // index.html的位置
