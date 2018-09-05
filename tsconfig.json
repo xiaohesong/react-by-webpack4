@@ -16,6 +16,12 @@
     "noLib": false,
     "preserveConstEnums": true,
     "suppressImplicitAnyIndexErrors": true,
-    "allowSyntheticDefaultImports": true
-  }
+    "allowSyntheticDefaultImports": true,
+    "lib": [
+      "es2015"
+    ]
+  },
+  "include": [
+    "./src/**/*"
+  ]
 }

@@ -17,7 +17,7 @@ const menu = () => (
     </Menu.Item>
     <Menu.Item key="3">
       <Icon type="upload" />
-      <span className="nav-text">nav 3</span>
+      <Link to='/hello'><span className="nav-text">hello ts</span></Link>
     </Menu.Item>
     <Menu.Item key="4">
       <Icon type="user" />
