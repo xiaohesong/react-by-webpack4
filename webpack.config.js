@@ -16,8 +16,8 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 // Plugins
 const handleCss = new MiniCssExtractPlugin({
-  filename: '[name].[contenthash:8].css',
-  chunkFilename: '[name].[contenthash:8].chunk.css',
+  filename: 'static/css/[name].[contenthash:8].css',
+  chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
 })
 const needClean = new CleanWebpackPlugin(['dist'])
 const bundleView = new BundleAnalyzerPlugin()
@@ -116,6 +116,8 @@ const uglifyConfig = new UglifyJsPlugin({
   sourceMap: false,
 })
 
+const IgnorePlugin =  new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+
 module.exports = (_env, args) => {
   const env = getClientEnvironment(args.mode);
   const DefinePlugin = new webpack.DefinePlugin(env.stringified)
@@ -124,8 +126,8 @@ module.exports = (_env, args) => {
     entry: { main: './src/index.js' },
     output: {
       path: path.resolve(__dirname, 'dist'),
-      chunkFilename: '[name].[contenthash:8].chunk.js',
-      filename: '[name].[contenthash:8].js'
+      chunkFilename: 'static/js/[name].[contenthash:8].chunk.js',
+      filename: 'static/js/[name].[contenthash:8].js'
     },
     optimization: {
       // SplitChunks的优化需要在最后处理，如果split chunks all会增加首次包的体积，需权衡.
@@ -187,7 +189,8 @@ module.exports = (_env, args) => {
       ]
     },
     // if need to show bundle package size, add bundleView to plugins
-    plugins: [htmlPlugin, needClean, handleCss, DefinePlugin, preloadPlugin],
+    plugins: [htmlPlugin, needClean, handleCss, DefinePlugin, IgnorePlugin, preloadPlugin],
+    
     resolve: {
       extensions: [".ts", ".tsx", ".js"]
     },
