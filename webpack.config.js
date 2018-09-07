@@ -121,7 +121,7 @@ const IgnorePlugin =  new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
 module.exports = (_env, args) => {
   const env = getClientEnvironment(args.mode);
   const DefinePlugin = new webpack.DefinePlugin(env.stringified)
-
+  const PORT = process.env.XHS_PORT || 3000
   return {
     entry: { main: './src/index.js' },
     output: {
@@ -201,6 +201,7 @@ module.exports = (_env, args) => {
       inline: true,
       compress: true,
       progress: true,
+      port: PORT
     }
   }
 };
