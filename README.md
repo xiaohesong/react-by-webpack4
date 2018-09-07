@@ -28,6 +28,11 @@
 
 - [node >= 7.1](https://github.com/GoogleChromeLabs/preload-webpack-plugin/issues/45#issuecomment-352523780)
 
+- port
+  支持自定义端口
+  
+  例如`.env.development`配置`XHS_PORT=8888`，如果不配置则默认是`3000`端口.
+  
 ### 开发环境
 <details>
   <summary>点击展开</summary>
