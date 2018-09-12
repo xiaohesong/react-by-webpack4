@@ -10,7 +10,7 @@ const autoprefixer = require('autoprefixer');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-
+const ManifestPlugin = require('webpack-manifest-plugin');
 // Plugins
 const handleCss = new MiniCssExtractPlugin({
   filename: 'static/css/[name].[contenthash:8].css',
@@ -113,6 +113,10 @@ const uglifyConfig = new UglifyJsPlugin({
   sourceMap: false,
 })
 
+const Manifest = new ManifestPlugin({
+  fileName: 'asset-manifest.json'
+})
+
 
 module.exports = {
   handleCss,
@@ -125,6 +129,7 @@ module.exports = {
   OptimizeCSSAssets,
   uglifyConfig,
   MiniCssExtractPlugin,
+  Manifest,
   splitChunks,
   bundleView,
 }

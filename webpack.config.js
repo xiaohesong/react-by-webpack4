@@ -76,7 +76,7 @@ module.exports = (_env, args) => {
       ]
     },
     // if need to show bundle package size, add bundleView to plugins
-    plugins: [configs.htmlPlugin, configs.needClean, configs.handleCss, DefinePlugin, IgnorePlugin, configs.preloadPlugin],
+    plugins: [configs.htmlPlugin, configs.needClean, configs.handleCss, configs.Manifest, DefinePlugin, IgnorePlugin, configs.preloadPlugin],
     
     resolve: {
       extensions: [".ts", ".tsx", ".js"]
