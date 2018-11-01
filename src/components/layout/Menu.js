@@ -13,7 +13,7 @@ const menu = () => (
     </Menu.SubMenu>
     <Menu.Item key="2">
       <Icon type="video-camera" />
-      <Link to='/ni'><span className="nav-text">You</span></Link>
+      <Link to='/users'><span className="nav-text">用户</span></Link>
     </Menu.Item>
     <Menu.Item key="3">
       <Icon type="upload" />
