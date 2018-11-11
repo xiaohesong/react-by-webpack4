@@ -9,7 +9,8 @@
     "pro": "node serve.js",
     "start": "webpack-dev-server  --mode development --open",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -b master -d dist"
+    "deploy": "gh-pages -b master -d dist",
+    "prebuild": "cp example.env.production .env.production"
   },
   "author": "xiaohesong",
   "license": "ISC",
