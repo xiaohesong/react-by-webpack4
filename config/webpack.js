@@ -16,7 +16,10 @@ const handleCss = new MiniCssExtractPlugin({
   filename: 'static/css/[name].[contenthash:8].css',
   chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
 })
-const needClean = new CleanWebpackPlugin(['dist'])
+const cleanOptions = {
+  root: `${__dirname}/..`
+}
+const needClean = new CleanWebpackPlugin(['dist'], cleanOptions)
 const bundleView = new BundleAnalyzerPlugin()
 const htmlPlugin = new HtmlWebPackPlugin({
   template: "./public/index.html",
