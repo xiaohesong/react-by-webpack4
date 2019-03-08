@@ -6,13 +6,13 @@ const app = express();
  *
  * @type {number}
  */
-const port = 5000;
+const port = 8080;
 
 // Add a handler to inspect the req.secure flag (see 
 // http://expressjs.com/api#req.secure). This allows us 
 // to know whether the request was via http or https.
 
-app.enable('trust proxy');
+// app.enable('trust proxy');
 
 // Add a handler to inspect the req.secure flag (see 
 // http://expressjs.com/api#req.secure). This allows us 
@@ -32,10 +32,10 @@ app.use(function (req, res, next) {
 });
 
 // Allow static files in the /public directory to be served
-app.use(express.static(__dirname + '/dist'));
+app.use(express.static(__dirname + '/build'));
 
 app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 // Start listening on the port

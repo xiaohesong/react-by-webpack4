@@ -5,9 +5,9 @@
   "homepage": "https://xiaohesong.github.io/react-by-webpack4",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node release.js && webpack --mode production",
+    "build": "node release.js && webpack --mode production --config ./webpack.prod.config.js",
     "pro": "node serve.js",
-    "start": "webpack-dev-server  --mode development --open",
+    "start": "webpack-dev-server  --mode development --open --config ./webpack.dev.config.js",
     "predeploy": "npm run build",
     "deploy": "gh-pages -b master -d dist",
     "prebuild": "cp example.env.production .env.production"
@@ -66,6 +66,7 @@
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.10",
-    "webpack-manifest-plugin": "^2.0.3"
+    "webpack-manifest-plugin": "^2.0.3",
+    "webpack-merge": "^4.2.1"
   }
 }
