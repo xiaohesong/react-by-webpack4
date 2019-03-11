@@ -4,7 +4,7 @@
   font-weight: 600;
   line-height: 72px;
   margin-bottom: 24px;
-  animation: skio-404 2s ease 0s infinite;
+  animation: error-404 2s ease 0s infinite;
   animation-play-state: running;
 }
 
@@ -20,7 +20,7 @@
   position: absolute;
 }
 
-@keyframes skio-404 {
+@keyframes error-404 {
     from    { transform: rotate(0deg); }
     4%      { transform: rotate(5deg); }
     12.5%   { transform: rotate(-5deg); }

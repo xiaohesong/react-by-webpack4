@@ -47,7 +47,7 @@ export const put = (path, params) => {
       url: `${API_URL}/${path}`,
       data: params,
       headers: {
-        "skio-token": localStorage.getItem("skioToken"),
+        "my-token": localStorage.getItem("myToken"),
       }
     })
     .then(response => response.data)
@@ -63,7 +63,7 @@ export const del = (path, params) => {
       url: `${API_URL}/${path}`,
       data: params,
       headers: {
-        "skio-token": localStorage.getItem("skioToken"),
+        "my-token": localStorage.getItem("myToken"),
       }
     })
     .then(response => response.data)
