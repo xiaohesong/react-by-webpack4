@@ -4,6 +4,8 @@ import { Provider } from 'react-redux'
 import configureStore from './configureStore'
 import App from './app'
 
+import * as serviceWorker from './serviceWorker';
+
 const store = configureStore()
 
 if (process.env.NODE_ENV === 'production') {
@@ -20,3 +22,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 )
+
+serviceWorker.register();

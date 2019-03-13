@@ -1,6 +1,6 @@
 const merge = require('webpack-merge')
 const webpackBaseConfig = require('./webpack.config.js')
-const {uglifyConfig, OptimizeCSSAssets} = require('./config/webpack')
+const {testerWebpackPlugin, OptimizeCSSAssets} = require('./config/webpack')
 
 module.exports = (_env, args) => merge(webpackBaseConfig(_env, args), {
     optimization: {
@@ -17,7 +17,7 @@ module.exports = (_env, args) => merge(webpackBaseConfig(_env, args), {
       // runtimeChunk: true,
       // minimize: true,
       minimizer: [
-        uglifyConfig,
+        testerWebpackPlugin,
         OptimizeCSSAssets
       ]
     },

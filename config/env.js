@@ -27,7 +27,7 @@ function getEnvFile(env) {
 
 }
 
-function getClientEnvironment(env) {
+function getClientEnvironment(env, publicUrl) {
   getEnvFile(env)
   const raw = Object.keys(process.env)
     .filter(key => NAMESPACE.test(key))
@@ -36,7 +36,8 @@ function getClientEnvironment(env) {
         env[key] = process.env[key];
         return env;
       }, {
-        NODE_ENV: env
+        NODE_ENV: env,
+        PUBLIC_URL: publicUrl,
       }
     );
   // Stringify all values so we can feed into Webpack DefinePlugin

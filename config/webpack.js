@@ -1,3 +1,4 @@
+const paths = require('./paths')
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
@@ -9,8 +10,14 @@ const autoprefixer = require('autoprefixer');
 
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
+// Remove UglifyJs, use TeserPlugin, Because:
+// https://github.com/webpack-contrib/terser-webpack-plugin/issues/15
+
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 // Plugins
 const handleCss = new MiniCssExtractPlugin({
   filename: 'static/css/[name].[contenthash:8].css',
@@ -19,10 +26,10 @@ const handleCss = new MiniCssExtractPlugin({
 const cleanOptions = {
   root: `${__dirname}/..`
 }
-const needClean = new CleanWebpackPlugin(['dist'], cleanOptions)
+const needClean = new CleanWebpackPlugin(['build'], cleanOptions)
 const bundleView = new BundleAnalyzerPlugin()
 const htmlPlugin = new HtmlWebPackPlugin({
-  template: "./public/index.html",
+  template: paths.appHtml,
   filename: "./index.html",
   minify: {
     removeComments: true,
@@ -91,9 +98,14 @@ const splitChunks = {
 }
 
 const preloadPlugin = new PreloadWebpackPlugin()
-const OptimizeCSSAssets = new OptimizeCSSAssetsPlugin({ cssProcessorOptions: { safe: true } })
-const uglifyConfig = new UglifyJsPlugin({
-  uglifyOptions: {
+const OptimizeCSSAssets = new OptimizeCSSAssetsPlugin({
+  cssProcessorOptions: {
+    safe: true
+  }
+})
+
+const testerWebpackPlugin = new TerserPlugin({
+  terserOptions: {
     parse: {
       ecma: 8,
     },
@@ -101,6 +113,7 @@ const uglifyConfig = new UglifyJsPlugin({
       ecma: 5,
       warnings: false,
       comparisons: false,
+      inline: 2,
     },
     mangle: {
       safari10: true,
@@ -112,12 +125,27 @@ const uglifyConfig = new UglifyJsPlugin({
     },
   },
   parallel: true,
+  // Enable file caching
   cache: true,
   sourceMap: false,
 })
 
 const Manifest = new ManifestPlugin({
-  fileName: 'asset-manifest.json'
+  fileName: 'asset-manifest.json',
+  // publicPath: '.',
+})
+
+const workService = new WorkboxWebpackPlugin.GenerateSW({
+  clientsClaim: true,
+  exclude: [/\.map$/, /asset-manifest\.json$/],
+  importWorkboxFrom: 'cdn',
+  navigateFallbackBlacklist: [
+    // Exclude URLs starting with /_, as they're likely an API call
+    new RegExp('^/_'),
+    // Exclude URLs containing a dot, as they're likely a resource in
+    // public/ and not a SPA route
+    new RegExp('/[^/]+\\.[^/]+$'),
+  ],
 })
 
 
@@ -130,9 +158,10 @@ module.exports = {
   postcssLoader,
   preloadPlugin,
   OptimizeCSSAssets,
-  uglifyConfig,
+  testerWebpackPlugin,
   MiniCssExtractPlugin,
   Manifest,
   splitChunks,
   bundleView,
+  workService
 }
