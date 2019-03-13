@@ -10,10 +10,7 @@
 ---
 
 ### 技术栈
-<details>
-  <summary>点击展开</summary>
-  
-  - react全家桶
+- react全家桶
     - react
     - redux
     - react-redux
@@ -22,7 +19,6 @@
   - antd
   - typescript
   - eslint
-</details>
 
 ### 基础环境
 
