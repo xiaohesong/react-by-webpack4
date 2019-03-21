@@ -1,5 +1,6 @@
 import {Route, Redirect} from 'react-router-dom'
 import React, {useState} from 'react'
+import {message} from 'antd';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => (
@@ -31,5 +32,8 @@ function DelayRedirect(props) {
 
 const loggedIn = () => {
   let authId = localStorage.getItem("authId");
+  if (!authId) {
+    message.error('请重新登录!')
+  }
   return Boolean(authId)
 }
