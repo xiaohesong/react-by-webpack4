@@ -109,7 +109,7 @@ function checkReturnStatus(res) {
       throw errors
     case 401:
       message.error("登录会话过期,请重新登录", 5)
-      cleanCookieWhenLogout()
+      setTimeout(cleanCookieWhenLogout, 2000)
       break;
     case 403:
       message.error("无权限访问", 5)
