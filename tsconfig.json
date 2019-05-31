@@ -1,25 +1,21 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "allowJs": true,
-    "moduleResolution": "node",
-    "module": "esnext",
-    "strict": true,
-    "importHelpers": true,
-    "declaration": false,
-    "noImplicitAny": true,
-    "removeComments": true,
-    "sourceMap": true,
-    "jsx": "react",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "noLib": false,
-    "preserveConstEnums": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "allowSyntheticDefaultImports": true,
     "lib": [
-      "es2015"
-    ]
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true, //将每个文件作为单独的模块, 默认为false
+    "noEmit": true,
+    "jsx": "preserve"
   },
   "include": [
     "./src/**/*"
