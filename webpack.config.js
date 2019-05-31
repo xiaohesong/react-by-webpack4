@@ -32,7 +32,8 @@ module.exports = (_env, args) => {
     output: {
       path: isEnvProduction ? paths.appBuild : undefined,
       chunkFilename: 'static/js/[name].[contenthash:8].chunk.js',
-      filename: 'static/js/[name].[contenthash:8].js'
+      filename: 'static/js/[name].[contenthash:8].js',
+      publicPath: publicPath,
     },
     module: {
       rules: [{
@@ -77,7 +78,6 @@ module.exports = (_env, args) => {
     // if need to show bundle package size, add bundleView to plugins
     plugins: [
       configs.htmlPlugin,
-      configs.needClean,
       configs.handleCss,
       configs.Manifest,
       DefinePlugin,

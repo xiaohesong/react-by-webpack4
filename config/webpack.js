@@ -1,6 +1,5 @@
 const paths = require('./paths')
 const HtmlWebPackPlugin = require("html-webpack-plugin");
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 //https://webpack.js.org/plugins/mini-css-extract-plugin/#minimizing-for-production
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -26,7 +25,6 @@ const handleCss = new MiniCssExtractPlugin({
 const cleanOptions = {
   root: `${__dirname}/..`
 }
-const needClean = new CleanWebpackPlugin(['build'], cleanOptions)
 const bundleView = new BundleAnalyzerPlugin()
 const htmlPlugin = new HtmlWebPackPlugin({
   template: paths.appHtml,
@@ -151,7 +149,6 @@ const workService = new WorkboxWebpackPlugin.GenerateSW({
 
 module.exports = {
   handleCss,
-  needClean,
   htmlPlugin,
   lessLoader,
   cssLoader,
