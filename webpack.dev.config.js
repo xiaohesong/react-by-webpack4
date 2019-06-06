@@ -10,7 +10,8 @@ module.exports = (_env, args) => merge(webpackBaseConfig(_env, args), {
     contentBase: paths.appPublic, // index.html的位置
     publicPath: '/', // 后续增加，之前只有contentBase: path.join(__dirname, "/"), // index.html的位置
     historyApiFallback: true,
-    inline: true,
+    // inline: true,
+    hot: true,
     compress: true,
     progress: true,
     port: PORT
