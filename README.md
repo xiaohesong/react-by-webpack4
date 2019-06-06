@@ -1,3 +1,7 @@
+## 简单说明
+
+当前技术栈使用的babel是7以前的版本，若要使用7以后的版本，请移步至[babel7 分支](https://github.com/xiaohesong/react-by-webpack4/tree/babel7)
+
 ### 目录
   - [技术栈](#技术栈)
   - [基础环境](#基础环境)
