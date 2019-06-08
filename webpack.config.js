@@ -1,10 +1,40 @@
-const path = require('path');
 const webpack = require('webpack');
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
+const InterpolateHtmlPlugin = require('./config/plugins/InterpolateHtmlPlugin')
+const ModuleNotFoundPlugin = require('./config/plugins/ModuleNotFoundPlugin');
+
 const paths = require('./config/paths')
 const configs = require('./config/webpack.js')
 
 const IgnorePlugin = new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
 const getClientEnvironment = require('./config/env.js')
+
+
+const htmlPlugin = new HtmlWebpackPlugin({
+  template: paths.appHtml,
+  filename: "./index.html",
+  minify: {
+    removeComments: true,
+    collapseWhitespace: true,
+    removeRedundantAttributes: true,
+    useShortDoctype: true,
+    removeEmptyAttributes: true,
+    removeStyleLinkTypeAttributes: true,
+    keepClosingSlash: true,
+    minifyJS: true,
+    minifyCSS: true,
+    minifyURLs: true,
+  },
+});
+
+const cssRegex = /\.css$/;
+const cssModuleRegex = /\.module\.css$/;
+const BUNDLE_ANALYZER_PORT_DEFAULT = 8888
 
 module.exports = (_env, args) => {
   const isEnvDevelopment = args.mode === 'development';
@@ -14,6 +44,8 @@ module.exports = (_env, args) => {
     paths.servedPath :
     isEnvDevelopment && '/';
 
+  const shouldUseRelativeAssetPaths = publicPath === './';
+
   const publicUrl = isEnvProduction ?
     publicPath.slice(0, -1) :
     isEnvDevelopment && '';
@@ -21,53 +53,158 @@ module.exports = (_env, args) => {
   const env = getClientEnvironment(args.mode, publicUrl);
   const DefinePlugin = new webpack.DefinePlugin(env.stringified)
 
+  const BundleAnalyzerPluginable = process.env.BUNDLE_ANALYZER
+  const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP === 'true';
+
+  const Manifest = new ManifestPlugin({
+    fileName: 'asset-manifest.json',
+    publicPath: publicPath,
+  })
+
   return {
-    entry: {
-      main: './src/index.js'
-    },
+    bail: isEnvProduction,
+    devtool: isEnvProduction ?
+      shouldUseSourceMap ?
+      'source-map' :
+      false :
+      isEnvDevelopment && 'cheap-module-source-map',
+    entry: { main: './src/index.js' },
     stats: {
       entrypoints: false,
-      children: false
+      children: false,
+      modules: false, // 取消模块构建信息
+      warnings: false
     },
     output: {
       path: isEnvProduction ? paths.appBuild : undefined,
-      chunkFilename: 'static/js/[name].[contenthash:8].chunk.js',
-      filename: 'static/js/[name].[contenthash:8].js',
+      chunkFilename: isEnvProduction ?
+        'static/js/[name].[contenthash:8].chunk.js' :
+        isEnvDevelopment && 'static/js/[name].chunk.js',
+      filename: isEnvProduction ?
+        'static/js/[name].[contenthash:8].js' :
+        isEnvDevelopment && 'static/js/bundle.js',
+
       publicPath: publicPath,
     },
+    optimization: {
+      minimize: isEnvProduction,
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            parse: {
+              ecma: 8,
+            },
+            compress: {
+              ecma: 5,
+              warnings: false,
+              comparisons: false,
+              inline: 2,
+            },
+            mangle: {
+              safari10: true,
+            },
+            output: {
+              ecma: 5,
+              comments: false,
+              ascii_only: true,
+            },
+          },
+          parallel: true,
+          // Enable file caching
+          cache: true,
+          sourceMap: shouldUseSourceMap,
+        }),
+        new OptimizeCSSAssetsPlugin({
+          cssProcessorOptions: {
+            safe: true
+          }
+        })
+      ],
+      splitChunks: {
+        chunks: 'all',
+        name: false,
+      },
+      runtimeChunk: true,
+    },
     module: {
-      rules: [{
-          test: /\.tsx?$/,
-          loader: 'ts-loader',
-          exclude: /node_modules/
-        },
+      rules: [
+        // {
+        //   test: /\.(tsx|ts)?$/,
+        //   loader: 'ts-loader',
+        //   exclude: /node_modules/
+        // },
         {
-          test: /\.js$/,
+          test: /\.(js|jsx|ts|tsx)$/,
           exclude: /node_modules/,
           loader: 'babel-loader',
           query: {
+            cacheDirectory: true,
+            compact: isEnvProduction,
             "presets": [
-              "react",
-              "es2015",
-              "stage-0"
+              // https://babeljs.io/docs/en/babel-preset-react
+              "@babel/preset-react",
+              // es2015 to env https://babeljs.io/docs/en/env
+              "@babel/preset-env",
+              // https://babeljs.io/docs/en/babel-preset-typescript
+              "@babel/preset-typescript",
+
+              // https://babeljs.io/blog/2018/07/27/removing-babels-stage-presets
             ],
             "plugins": [
               ["import", {
                 "libraryName": "antd",
+                "libraryDirectory": "es",
                 "style": true
               }],
-              ["transform-runtime", {
+              // https://babeljs.io/docs/en/babel-plugin-transform-runtime
+              ["@babel/plugin-transform-runtime", {
                 "helpers": false, // defaults to true
-                "polyfill": false, // defaults to true
-                "regenerator": true, // defaults to true
-                "moduleName": "babel-runtime" // defaults to "babel-runtime"
               }],
-            ] // End plugins
+              ["@babel/plugin-proposal-class-properties", {
+                "loose": true
+              }],
+              require('@babel/plugin-syntax-dynamic-import').default,
+              isEnvProduction && [
+                // Remove PropTypes from production build
+                require('babel-plugin-transform-react-remove-prop-types').default,
+                {
+                  removeImport: true,
+                },
+              ],
+            ].filter(Boolean), // End plugins
           },
         },
         {
-          test: /\.(less|css)$/,
-          use: [configs.MiniCssExtractPlugin.loader, configs.cssLoader, configs.postcssLoader, configs.lessLoader] // end less use
+          oneOf: [
+            {
+              test: /\.(less|css)$/,
+              exclude: cssModuleRegex,
+              sideEffects: true,
+              use: [
+                isEnvDevelopment && require.resolve('style-loader'), 
+                isEnvProduction && {
+                  loader: configs.MiniCssExtractPlugin.loader,
+                  options: Object.assign({},
+                    shouldUseRelativeAssetPaths ? {
+                      publicPath: '../../'
+                    } : undefined
+                  ),
+                },
+                configs.cssLoader, 
+                configs.postcssLoader, 
+                configs.lessLoader
+              ].filter(Boolean) // end less use
+            }, {
+              test: cssModuleRegex,
+              use: [
+                isEnvDevelopment && require.resolve('style-loader'), 
+                isEnvProduction && configs.MiniCssExtractPlugin.loader, 
+                configs.cssModulesLoader, 
+                configs.postcssLoader, 
+                configs.lessLoader
+              ].filter(Boolean) // end less use
+            },
+          ]
         },
         {
           test: /\.(png|svg|jpg|gif|jpeg)$/,
@@ -77,20 +214,30 @@ module.exports = (_env, args) => {
     },
     // if need to show bundle package size, add bundleView to plugins
     plugins: [
-      configs.htmlPlugin,
-      configs.handleCss,
-      configs.Manifest,
-      DefinePlugin,
-      IgnorePlugin,
-      configs.preloadPlugin,
-      configs.workService
+      htmlPlugin, 
+      new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
+      isEnvProduction && configs.handleCss,
+      Manifest, 
+      DefinePlugin, 
+      IgnorePlugin, 
+      new ModuleNotFoundPlugin(paths.appPath),
+      // configs.preloadPlugin,
+      isEnvProduction && configs.workService,
+      isEnvDevelopment && BundleAnalyzerPluginable && new BundleAnalyzerPlugin({
+        analyzerPort: process.env.BUNDLE_ANALYZER_PORT || BUNDLE_ANALYZER_PORT_DEFAULT
+      }),
+      new MomentLocalesPlugin({
+        localesToKeep: ['zh-cn'],
+      }),
     ].filter(Boolean),
-
+    
     resolve: {
-      extensions: [".ts", ".tsx", ".js"],
-      alias: {
-        '@tools': path.resolve(__dirname, './src/tools'),
-      }
+      extensions: [".ts", ".tsx", ".js", ".json"],
+      // alias: {
+      //   '@interface': path.resolve(__dirname, './src/interface/FunctionProps'),
+      //   '@fetch': path.resolve(__dirname, './src/tools/request.js'),
+      //   "@commons": path.resolve(__dirname, './src/components/commons'),
+      // }
     }
   }
 };
