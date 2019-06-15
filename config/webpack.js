@@ -7,7 +7,6 @@ const getCSSModuleLocalIdent = require('./module.hash');
 // https://github.com/webpack-contrib/terser-webpack-plugin/issues/15
 
 // const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 // Plugins
 const handleCss = new MiniCssExtractPlugin({
   filename: 'static/css/[name].[contenthash:8].css',
@@ -83,19 +82,6 @@ const splitChunks = {
   }
 }
 
-const workService = new WorkboxWebpackPlugin.GenerateSW({
-  clientsClaim: true,
-  exclude: [/\.map$/, /asset-manifest\.json$/],
-  importWorkboxFrom: 'cdn',
-  navigateFallbackBlacklist: [
-    // Exclude URLs starting with /_, as they're likely an API call
-    new RegExp('^/_'),
-    // Exclude URLs containing a dot, as they're likely a resource in
-    // public/ and not a SPA route
-    new RegExp('/[^/]+\\.[^/]+$'),
-  ],
-})
-
 
 module.exports = {
   handleCss,
@@ -105,5 +91,4 @@ module.exports = {
   postcssLoader,
   MiniCssExtractPlugin,
   splitChunks,
-  workService
 }

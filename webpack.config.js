@@ -4,6 +4,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
 const InterpolateHtmlPlugin = require('./config/plugins/InterpolateHtmlPlugin')
 const ModuleNotFoundPlugin = require('./config/plugins/ModuleNotFoundPlugin');
@@ -222,7 +223,19 @@ module.exports = (_env, args) => {
       IgnorePlugin, 
       new ModuleNotFoundPlugin(paths.appPath),
       // configs.preloadPlugin,
-      isEnvProduction && configs.workService,
+      isEnvProduction && new WorkboxWebpackPlugin.GenerateSW({
+        clientsClaim: true,
+        exclude: [/\.map$/, /asset-manifest\.json$/],
+        importWorkboxFrom: 'cdn',
+        navigateFallback: publicUrl + '/index.html',
+        navigateFallbackBlacklist: [
+          // Exclude URLs starting with /_, as they're likely an API call
+          new RegExp('^/_'),
+          // Exclude URLs containing a dot, as they're likely a resource in
+          // public/ and not a SPA route
+          new RegExp('/[^/]+\\.[^/]+$'),
+        ],
+      }),
       isEnvDevelopment && BundleAnalyzerPluginable && new BundleAnalyzerPlugin({
         analyzerPort: process.env.BUNDLE_ANALYZER_PORT || BUNDLE_ANALYZER_PORT_DEFAULT
       }),
