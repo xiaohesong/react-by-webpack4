@@ -205,12 +205,24 @@ module.exports = (_env, args) => {
                 configs.lessLoader
               ].filter(Boolean) // end less use
             },
+
+            {
+              test: /\.(png|svg|jpg|gif|jpeg|bmp)$/,
+              loader: require.resolve('url-loader'),
+              options: {
+                limit: 10000,
+                name: 'static/media/[name].[hash:8].[ext]',
+              },
+            }, {
+              // test: /\.(png|svg|jpg|gif|jpeg|bmp)$/,
+              exclude: [/\.(js|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
+              loader: require.resolve('file-loader'),
+              options: {
+                name: 'static/media/[name].[hash:8].[ext]',
+              },
+            }
           ]
         },
-        {
-          test: /\.(png|svg|jpg|gif|jpeg)$/,
-          use: ['file-loader']
-        }
       ]
     },
     // if need to show bundle package size, add bundleView to plugins
