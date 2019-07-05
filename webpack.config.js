@@ -5,6 +5,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
+const StyleLintPlugin = require('stylelint-webpack-plugin');
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
 const InterpolateHtmlPlugin = require('./config/plugins/InterpolateHtmlPlugin')
 const ModuleNotFoundPlugin = require('./config/plugins/ModuleNotFoundPlugin');
@@ -36,6 +37,12 @@ const htmlPlugin = new HtmlWebpackPlugin({
 const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const BUNDLE_ANALYZER_PORT_DEFAULT = 8888
+
+const stylelintConfigs = {
+  context: 'src',
+  files: ['**/*.css'],
+}
+const stylelintable = false
 
 module.exports = (_env, args) => {
   const isEnvDevelopment = args.mode === 'development';
@@ -254,6 +261,7 @@ module.exports = (_env, args) => {
       new MomentLocalesPlugin({
         localesToKeep: ['zh-cn'],
       }),
+      stylelintable && isEnvDevelopment && new StyleLintPlugin(stylelintConfigs),
     ].filter(Boolean),
     
     resolve: {

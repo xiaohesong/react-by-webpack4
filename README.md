@@ -19,6 +19,7 @@
   - antd
   - typescript
   - eslint
+  - stylelint
 
 ### 基础环境
 
