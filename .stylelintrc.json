@@ -1,0 +1,18 @@
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "at-rule-empty-line-before": null,
+    "block-closing-brace-newline-after": "always",
+    "declaration-block-trailing-semicolon": "always",
+    "declaration-no-important": true,
+    "declaration-colon-space-after": "always",
+    "color-named": "never",
+    "selector-max-id": 0,
+    "selector-max-universal": 0,
+    "number-leading-zero": "never",
+    "number-no-trailing-zeros": true,
+    "length-zero-no-unit": true,
+    "unit-case": "lower",
+    "unit-whitelist": ["em", "rem", "s"]
+  }
+}
