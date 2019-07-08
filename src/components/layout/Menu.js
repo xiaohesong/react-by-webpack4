@@ -21,7 +21,7 @@ const menu = () => (
     </Menu.Item>
     <Menu.Item key="4">
       <Icon type="user" />
-      <span className="nav-text">nav 4</span>
+      <Link to='/map'><span className="nav-text">地图轨迹</span></Link>
     </Menu.Item>
   </Menu>
 )
