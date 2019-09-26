@@ -1,0 +1,10 @@
+form.movie-form div {
+  padding: 3px 0;
+}
+
+form.movie-form label {
+  display: inline-block;
+  text-align: right;
+  width: 120px;
+  /* text-align-last:justify; 这个是设置两端对齐 */
+}

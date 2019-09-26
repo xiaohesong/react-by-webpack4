@@ -23,6 +23,10 @@ const menu = () => (
       <Icon type="user" />
       <Link to='/map'><span className="nav-text">地图轨迹</span></Link>
     </Menu.Item>
+    <Menu.Item key="5">
+      <Icon type="user" />
+      <Link to='/movies'><span className="nav-text">电影</span></Link>
+    </Menu.Item>
   </Menu>
 )
 

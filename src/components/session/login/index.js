@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Icon, Input, Button, message } from 'antd';
+import { Form, Icon, Input, Button, message, Checkbox } from 'antd';
 import {Link} from 'react-router-dom';
 import Header from '../../layout/header/HeaderWithoutLogin';
 import { phone } from '../../../tools/rules';
@@ -18,6 +18,13 @@ class LoginForm extends React.PureComponent {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        console.log('value is', values);
+        if(values.accountable){
+          message.success('登录成功!')
+          localStorage.setItem('authId', 0)
+          this.props.history.push('/')
+          return true;
+        }
         const {userList} = this.props.users.list
         this.props.actions.startLogin()
         values.password = values.password.trim()
@@ -57,6 +64,11 @@ class LoginForm extends React.PureComponent {
                 rules: [{ required: true, message: '请正确输入密码' }],
               })(
                 <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="请输入密码" />
+              )}
+            </FormItem>
+            <FormItem>
+              {getFieldDecorator('accountable')(
+                <Checkbox>无账号</Checkbox>
               )}
             </FormItem>
             <FormItem>

@@ -6,6 +6,7 @@ const Hello = asyncComponent(() => import('../Hello'))
 const User = asyncComponent(() => import('../users/User'))
 const Render = asyncComponent(() => import('../Render'))
 const BMap = asyncComponent(() => import('../BMap'))
+const Movie = asyncComponent(() => import('../movies'))
 
 const routes = [
   {path: "/",component: Home},
@@ -13,6 +14,7 @@ const routes = [
   {path: '/hello', component: Hello},
   {path: '/render', component: Render},
   {path: '/map', component: BMap},
+  {path: '/movies', component: Movie},
   {component: NotFound},
 ]
 

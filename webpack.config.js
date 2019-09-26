@@ -171,6 +171,9 @@ module.exports = (_env, args) => {
               ["@babel/plugin-proposal-class-properties", {
                 "loose": true
               }],
+              ["@babel/plugin-proposal-decorators", {
+                decoratorsBeforeExport: true
+              }],
               require('@babel/plugin-syntax-dynamic-import').default,
               isEnvProduction && [
                 // Remove PropTypes from production build

@@ -17,7 +17,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true, //将每个文件作为单独的模块, 默认为false
     "noEmit": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "experimentalDecorators": true
   },
   "include": [
     "src"
