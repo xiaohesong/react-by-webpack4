@@ -21,6 +21,10 @@
   - eslint
   - stylelint
 
+- mobx
+
+  [包含mobx的版本](https://github.com/xiaohesong/react-by-webpack4/tree/mobx)
+
 ### 基础环境
 
 - [node >= 7.1](https://github.com/GoogleChromeLabs/preload-webpack-plugin/issues/45#issuecomment-352523780)
