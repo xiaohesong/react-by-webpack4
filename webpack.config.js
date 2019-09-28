@@ -9,7 +9,7 @@ const StyleLintPlugin = require('stylelint-webpack-plugin');
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
 const InterpolateHtmlPlugin = require('./config/plugins/InterpolateHtmlPlugin')
 const ModuleNotFoundPlugin = require('./config/plugins/ModuleNotFoundPlugin');
-
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const paths = require('./config/paths')
 const configs = require('./config/webpack.js')
 
@@ -264,6 +264,7 @@ module.exports = (_env, args) => {
       new MomentLocalesPlugin({
         localesToKeep: ['zh-cn'],
       }),
+      new HardSourceWebpackPlugin(),
       stylelintable && isEnvDevelopment && new StyleLintPlugin(stylelintConfigs),
     ].filter(Boolean),
     
