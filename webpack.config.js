@@ -168,11 +168,11 @@ module.exports = (_env, args) => {
               ["@babel/plugin-transform-runtime", {
                 "helpers": false, // defaults to true
               }],
+              ["@babel/plugin-proposal-decorators", {
+                'legacy': true
+              }],
               ["@babel/plugin-proposal-class-properties", {
                 "loose": true
-              }],
-              ["@babel/plugin-proposal-decorators", {
-                decoratorsBeforeExport: true
               }],
               require('@babel/plugin-syntax-dynamic-import').default,
               isEnvProduction && [
