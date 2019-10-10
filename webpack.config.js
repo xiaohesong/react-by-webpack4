@@ -1,4 +1,6 @@
 const webpack = require('webpack');
+const path = require('path');
+const glob = require('glob');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -9,6 +11,7 @@ const StyleLintPlugin = require('stylelint-webpack-plugin');
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
 const InterpolateHtmlPlugin = require('./config/plugins/InterpolateHtmlPlugin')
 const ModuleNotFoundPlugin = require('./config/plugins/ModuleNotFoundPlugin');
+const PurgecssPlugin = require('purgecss-webpack-plugin');
 
 const paths = require('./config/paths')
 const configs = require('./config/webpack.js')
@@ -68,6 +71,10 @@ module.exports = (_env, args) => {
     fileName: 'asset-manifest.json',
     publicPath: publicPath,
   })
+
+  const PATHS = {
+    src: path.join(__dirname, 'src')
+  }
 
   return {
     bail: isEnvProduction,
@@ -237,6 +244,10 @@ module.exports = (_env, args) => {
       htmlPlugin, 
       new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
       isEnvProduction && configs.handleCss,
+      isEnvProduction && new PurgecssPlugin({
+        whitelistPatterns: [/^ant/],
+        paths: glob.sync(`${PATHS.src}/**/*`,  { nodir: true }),
+      }),
       Manifest, 
       DefinePlugin, 
       IgnorePlugin, 
