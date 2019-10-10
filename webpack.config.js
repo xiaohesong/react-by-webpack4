@@ -66,6 +66,8 @@ module.exports = (_env, args) => {
 
   const BundleAnalyzerPluginable = process.env.BUNDLE_ANALYZER
   const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP === 'true';
+  // https://github.com/FullHuman/purgecss-webpack-plugin
+  const PURGECSSABLE = process.env.PURGECSS === 'true';
 
   const Manifest = new ManifestPlugin({
     fileName: 'asset-manifest.json',
@@ -244,7 +246,7 @@ module.exports = (_env, args) => {
       htmlPlugin, 
       new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
       isEnvProduction && configs.handleCss,
-      isEnvProduction && new PurgecssPlugin({
+      isEnvProduction && PURGECSSABLE && new PurgecssPlugin({
         whitelistPatterns: [/^ant/],
         paths: glob.sync(`${PATHS.src}/**/*`,  { nodir: true }),
       }),
