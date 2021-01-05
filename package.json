@@ -15,7 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "antd": "^3.19.8",
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "baidu-component": "^2.0.4",
     "moment": "^2.24.0",
     "react": "^16.8.6",
